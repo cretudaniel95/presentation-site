@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for admin authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// Site configuration model
+model SiteConfig {
+  id            String    @id @default(cuid())
+  siteName      String    @default("Presentation Site")
+  siteTagline   String    @default("Your professional presentation site")
+  description   String?
+  logo          String?
+  favicon       String?
+  primaryColor  String    @default("#9333ea")
+  secondaryColor String   @default("#64748b")
+  theme         String    @default("light") // light, dark, auto
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("site_configs")
+}
+
+// Page content model
+model Page {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  title         String
+  content       String    @db.Text
+  metaTitle     String?
+  metaDescription String?
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("pages")
+}
+
+// Gallery image model
+model GalleryImage {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?
+  imageUrl      String
+  imageAlt      String?
+  category      String    @default("general")
+  order         Int       @default(0)
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([category])
+  @@map("gallery_images")
+}
+
+// Service model
+model Service {
+  id            String    @id @default(cuid())
+  name          String
+  description   String    @db.Text
+  icon          String?
+  price         Float?
+  duration      String?
+  order         Int       @default(0)
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("services")
+}
+
+// Testimonial model
+model Testimonial {
+  id            String    @id @default(cuid())
+  clientName    String
+  clientRole    String?
+  clientImage   String?
+  content       String    @db.Text
+  rating        Int       @default(5)
+  published     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("testimonials")
+}
+
+// Contact message model
+model ContactMessage {
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  subject       String
+  message       String    @db.Text
+  read          Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+
+  @@map("contact_messages")
+}
