@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
+import { ConfigProvider } from '@/lib/config-context';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -17,8 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-secondary-900 dark:bg-secondary-900 dark:text-white">
-        {children}
+      <body className="bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+        <ConfigProvider>
+          {children}
+        </ConfigProvider>
         <Toaster
           position="top-right"
           reverseOrder={false}

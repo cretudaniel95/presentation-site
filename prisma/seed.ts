@@ -20,7 +20,7 @@ async function main() {
   });
   console.log('Created admin user:', admin);
 
-  // Create default site config
+  // Create default site config with section-specific colors
   const siteConfig = await prisma.siteConfig.upsert({
     where: { id: 'default' },
     update: {},
@@ -29,9 +29,47 @@ async function main() {
       siteName: 'Nail Art Presentation',
       siteTagline: 'Professional Nail Art Services',
       description: 'Showcase your nail art portfolio with our beautiful presentation site.',
-      primaryColor: '#9333ea',
-      secondaryColor: '#64748b',
       theme: 'light',
+
+      // Header
+      headerBgColor: '#ffffff',
+      headerTextColor: '#1e293b',
+
+      // Hero Section
+      heroTitle: 'Welcome to Your Professional Presentation',
+      heroSubtitle: 'Showcase your work, share your story, and connect with your audience in a beautiful, modern way.',
+      heroTitleColor: '#1e293b',
+      heroTextColor: '#64748b',
+      heroButtonBgColor: '#9333ea',
+      heroButtonTextColor: '#ffffff',
+      heroButtonStyle: 'filled',
+
+      // About Section
+      aboutTitle: 'About',
+      aboutContent: 'Learn more about who we are and what we do.',
+      aboutBgColor: '#ffffff',
+      aboutTitleColor: '#1e293b',
+      aboutTextColor: '#64748b',
+
+      // Gallery Section
+      galleryTitle: 'Gallery',
+      galleryBgColor: '#f8fafc',
+      galleryTitleColor: '#1e293b',
+      galleryTextColor: '#64748b',
+      galleryCardBgColor: '#ffffff',
+
+      // Contact Section
+      contactTitle: 'Get in Touch',
+      contactContent: 'We would love to hear from you. Send us a message!',
+      contactBgColor: '#ffffff',
+      contactTitleColor: '#1e293b',
+      contactTextColor: '#64748b',
+      contactButtonBgColor: '#9333ea',
+      contactButtonTextColor: '#ffffff',
+
+      // Footer
+      footerBgColor: '#64748b',
+      footerTextColor: '#ffffff',
     },
   });
   console.log('Created site config:', siteConfig);

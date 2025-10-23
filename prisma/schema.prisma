@@ -31,9 +31,58 @@ model SiteConfig {
   description   String?
   logo          String?
   favicon       String?
-  primaryColor  String    @default("#9333ea")
-  secondaryColor String   @default("#64748b")
   theme         String    @default("light") // light, dark, auto
+
+  // Header/Navigation Section
+  headerBgColor String    @default("#ffffff")
+  headerTextColor String  @default("#1e293b")
+  headerLogoUrl String?
+
+  // Hero Section
+  heroTitle     String    @default("Welcome to Your Professional Presentation")
+  heroSubtitle  String    @default("Showcase your work, share your story, and connect with your audience in a beautiful, modern way.")
+  heroBackgroundImage String?
+  heroBgColor   String?
+  heroTitleColor String   @default("#1e293b")
+  heroTextColor String    @default("#64748b")
+  heroButtonBgColor String @default("#9333ea")
+  heroButtonTextColor String @default("#ffffff")
+  heroButtonStyle String  @default("filled") // filled, outlined
+
+  // About Section
+  aboutTitle    String    @default("About")
+  aboutContent  String    @default("Learn more about who we are and what we do.")
+  aboutBgColor  String    @default("#ffffff")
+  aboutTitleColor String  @default("#1e293b")
+  aboutTextColor String   @default("#64748b")
+  aboutBgImage  String?
+
+  // Gallery Section
+  galleryTitle  String    @default("Gallery")
+  galleryBgColor String   @default("#f8fafc")
+  galleryTitleColor String @default("#1e293b")
+  galleryTextColor String @default("#64748b")
+  galleryCardBgColor String @default("#ffffff")
+
+  // Contact Section
+  contactTitle  String    @default("Get in Touch")
+  contactContent String   @default("We would love to hear from you. Send us a message!")
+  contactBgColor String   @default("#ffffff")
+  contactTitleColor String @default("#1e293b")
+  contactTextColor String @default("#64748b")
+  contactBgImage String?
+  contactButtonBgColor String @default("#9333ea")
+  contactButtonTextColor String @default("#ffffff")
+
+  // Pages Section (for custom pages like /pages/about)
+  pagesBgColor String     @default("#ffffff")
+  pagesTitleColor String  @default("#1e293b")
+  pagesTextColor String   @default("#64748b")
+
+  // Footer Section
+  footerBgColor String    @default("#64748b")
+  footerTextColor String  @default("#ffffff")
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 

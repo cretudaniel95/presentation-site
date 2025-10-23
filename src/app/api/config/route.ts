@@ -4,19 +4,50 @@ import { siteConfigSchema } from '@/lib/validations';
 import { successResponse, errorResponse, validationErrorResponse } from '@/utils/api-response';
 import { logger } from '@/lib/logger';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     let config = await prisma.siteConfig.findFirst();
 
     if (!config) {
-      // Create default config if it doesn't exist
+      // Create default config if it doesn't exist with section-specific colors
       config = await prisma.siteConfig.create({
         data: {
           siteName: 'Presentation Site',
           siteTagline: 'Your professional presentation site',
-          primaryColor: '#9333ea',
-          secondaryColor: '#64748b',
           theme: 'light',
+
+          // Header
+          headerBgColor: '#ffffff',
+          headerTextColor: '#1e293b',
+
+          // Hero
+          heroTitleColor: '#1e293b',
+          heroTextColor: '#64748b',
+          heroButtonBgColor: '#9333ea',
+          heroButtonTextColor: '#ffffff',
+          heroButtonStyle: 'filled',
+
+          // About
+          aboutBgColor: '#ffffff',
+          aboutTitleColor: '#1e293b',
+          aboutTextColor: '#64748b',
+
+          // Gallery
+          galleryBgColor: '#f8fafc',
+          galleryTitleColor: '#1e293b',
+          galleryTextColor: '#64748b',
+          galleryCardBgColor: '#ffffff',
+
+          // Contact
+          contactBgColor: '#ffffff',
+          contactTitleColor: '#1e293b',
+          contactTextColor: '#64748b',
+          contactButtonBgColor: '#9333ea',
+          contactButtonTextColor: '#ffffff',
+
+          // Footer
+          footerBgColor: '#64748b',
+          footerTextColor: '#ffffff',
         },
       });
     }

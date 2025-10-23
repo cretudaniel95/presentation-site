@@ -6,13 +6,6 @@ const requiredEnvVars = [
   'NEXTAUTH_SECRET',
 ];
 
-const optionalEnvVars = [
-  'NEXT_PUBLIC_SITE_NAME',
-  'NEXT_PUBLIC_SITE_URL',
-  'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME',
-  'CLOUDINARY_API_KEY',
-  'CLOUDINARY_API_SECRET',
-];
 
 // Validate required environment variables
 function validateEnv() {

@@ -16,6 +16,7 @@ export default function PagesPage() {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     slug: '',
     title: '',
@@ -47,6 +48,14 @@ export default function PagesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate required fields
+    if (!formData.slug.trim() || !formData.title.trim() || !formData.content.trim()) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
       const response = await fetch('/api/pages', {
         method: 'POST',
@@ -57,15 +66,17 @@ export default function PagesPage() {
       const data = await response.json();
       if (data.success) {
         toast.success('Page saved successfully');
-        setPages([...pages, data.data]);
         resetForm();
         setIsModalOpen(false);
+        await fetchPages();
       } else {
         toast.error(data.error || 'Failed to save page');
       }
     } catch (error) {
-      toast.error('An error occurred');
-      console.error(error);
+      console.error('Submit error:', error);
+      toast.error('An error occurred while saving the page');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,9 +96,17 @@ export default function PagesPage() {
     if (!confirm('Are you sure you want to delete this page?')) return;
     
     try {
-      // TODO: Implement delete endpoint
-      toast.success('Page deleted successfully');
-      setPages(pages.filter((page) => page.id !== id));
+      const response = await fetch(`/api/pages/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast.success('Page deleted successfully');
+        setPages(pages.filter((page) => page.id !== id));
+      } else {
+        toast.error(data.error || 'Failed to delete page');
+      }
     } catch (error) {
       toast.error('Failed to delete page');
       console.error(error);
@@ -217,10 +236,21 @@ export default function PagesPage() {
             <span className="text-sm font-medium text-secondary-700">Publish</span>
           </label>
           <div className="flex gap-3 pt-4">
-            <Button variant="outline" onClick={() => setIsModalOpen(false)} className="flex-1">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => { resetForm(); setIsModalOpen(false); }}
+              className="flex-1"
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
-            <Button type="submit" className="flex-1">
+            <Button
+              type="submit"
+              className="flex-1"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+            >
               {editingId ? 'Update' : 'Create'} Page
             </Button>
           </div>

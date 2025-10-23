@@ -1,11 +1,12 @@
 import { z } from 'zod';
 
-// Auth schemas
+// Login schema
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
+// Register schema
 export const registerSchema = z.object({
   email: z.string().email('Invalid email address'),
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -67,6 +68,12 @@ export const testimonialSchema = z.object({
   published: z.boolean().default(false),
 });
 
+// Helper for color validation - accepts valid hex color or empty string
+const colorField = () => z.string().refine(
+  (val) => val === '' || /^#[0-9A-F]{6}$/i.test(val),
+  { message: 'Invalid color format. Use #RRGGBB format or leave empty' }
+).optional();
+
 // Site config schema
 export const siteConfigSchema = z.object({
   siteName: z.string().min(1, 'Site name is required'),
@@ -74,9 +81,57 @@ export const siteConfigSchema = z.object({
   description: z.string().optional(),
   logo: z.string().optional(),
   favicon: z.string().optional(),
-  primaryColor: z.string().regex(/^#[0-9A-F]{6}$/i, 'Invalid color format'),
-  secondaryColor: z.string().regex(/^#[0-9A-F]{6}$/i, 'Invalid color format'),
   theme: z.enum(['light', 'dark', 'auto']).default('light'),
+
+  // Header/Navigation Section
+  headerBgColor: colorField(),
+  headerTextColor: colorField(),
+  headerLogoUrl: z.string().optional(),
+
+  // Hero Section
+  heroTitle: z.string().optional(),
+  heroSubtitle: z.string().optional(),
+  heroBackgroundImage: z.string().optional(),
+  heroBgColor: colorField(),
+  heroTitleColor: colorField(),
+  heroTextColor: colorField(),
+  heroButtonBgColor: colorField(),
+  heroButtonTextColor: colorField(),
+  heroButtonStyle: z.string().optional(),
+
+  // About Section
+  aboutTitle: z.string().optional(),
+  aboutContent: z.string().optional(),
+  aboutBgColor: colorField(),
+  aboutTitleColor: colorField(),
+  aboutTextColor: colorField(),
+  aboutBgImage: z.string().optional(),
+
+  // Gallery Section
+  galleryTitle: z.string().optional(),
+  galleryBgColor: colorField(),
+  galleryTitleColor: colorField(),
+  galleryTextColor: colorField(),
+  galleryCardBgColor: colorField(),
+
+  // Contact Section
+  contactTitle: z.string().optional(),
+  contactContent: z.string().optional(),
+  contactBgColor: colorField(),
+  contactTitleColor: colorField(),
+  contactTextColor: colorField(),
+  contactBgImage: z.string().optional(),
+  contactButtonBgColor: colorField(),
+  contactButtonTextColor: colorField(),
+
+  // Pages Section
+  pagesBgColor: colorField(),
+  pagesTitleColor: colorField(),
+  pagesTextColor: colorField(),
+
+  // Footer Section
+  footerBgColor: colorField(),
+  footerTextColor: colorField(),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -87,3 +142,4 @@ export type GalleryImageInput = z.infer<typeof galleryImageSchema>;
 export type ServiceInput = z.infer<typeof serviceSchema>;
 export type TestimonialInput = z.infer<typeof testimonialSchema>;
 export type SiteConfigInput = z.infer<typeof siteConfigSchema>;
+

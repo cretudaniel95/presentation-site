@@ -185,9 +185,9 @@ describe('Validation Schemas', () => {
     it('should validate correct site config data', () => {
       const data = {
         siteName: 'My Site',
-        primaryColor: '#9333ea',
-        secondaryColor: '#64748b',
         theme: 'light',
+        headerBgColor: '#ffffff',
+        heroButtonBgColor: '#9333ea',
       };
       const result = siteConfigSchema.safeParse(data);
       expect(result.success).toBe(true);
@@ -196,8 +196,7 @@ describe('Validation Schemas', () => {
     it('should reject invalid color format', () => {
       const data = {
         siteName: 'My Site',
-        primaryColor: 'red',
-        secondaryColor: '#64748b',
+        headerBgColor: 'red',
         theme: 'light',
       };
       const result = siteConfigSchema.safeParse(data);
@@ -207,8 +206,7 @@ describe('Validation Schemas', () => {
     it('should reject invalid theme', () => {
       const data = {
         siteName: 'My Site',
-        primaryColor: '#9333ea',
-        secondaryColor: '#64748b',
+        headerBgColor: '#9333ea',
         theme: 'invalid',
       };
       const result = siteConfigSchema.safeParse(data);
