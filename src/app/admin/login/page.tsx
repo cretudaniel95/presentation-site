@@ -39,8 +39,11 @@ export default function LoginPage() {
 
       if (data.success) {
         toast.success('Login successful!');
-        // TODO: Store token in localStorage/cookie
-        // TODO: Redirect to admin dashboard
+        // Store user data in localStorage
+        if (data.data?.user) {
+          localStorage.setItem('admin_user', JSON.stringify(data.data.user));
+          localStorage.setItem('is_authenticated', 'true');
+        }
         router.push('/admin');
       } else {
         toast.error(data.error || 'Login failed');
@@ -114,7 +117,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-secondary-600 text-sm mt-6">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/admin/register" className="text-primary-600 hover:text-primary-700 font-medium">
             Register here
           </Link>

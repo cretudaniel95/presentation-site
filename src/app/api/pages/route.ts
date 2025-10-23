@@ -7,9 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const published = searchParams.get('published') === 'true';
+    const slug = searchParams.get('slug');
 
     const where: any = {};
     if (published) where.published = true;
+    if (slug) where.slug = slug;
 
     const pages = await prisma.page.findMany({
       where,

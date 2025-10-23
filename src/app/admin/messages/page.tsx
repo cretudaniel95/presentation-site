@@ -44,9 +44,17 @@ export default function MessagesPage() {
     if (!confirm('Are you sure you want to delete this message?')) return;
     
     try {
-      // TODO: Implement delete endpoint
-      toast.success('Message deleted successfully');
-      setMessages(messages.filter((msg) => msg.id !== id));
+      const response = await fetch(`/api/contact/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast.success('Message deleted successfully');
+        setMessages(messages.filter((msg) => msg.id !== id));
+      } else {
+        toast.error(data.error || 'Failed to delete message');
+      }
     } catch (error) {
       toast.error('Failed to delete message');
       console.error(error);
@@ -55,13 +63,23 @@ export default function MessagesPage() {
 
   const handleMarkAsRead = async (id: string) => {
     try {
-      // TODO: Implement mark as read endpoint
-      setMessages(
-        messages.map((msg) =>
-          msg.id === id ? { ...msg, read: true } : msg
-        )
-      );
-      toast.success('Message marked as read');
+      const response = await fetch(`/api/contact/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ read: true }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setMessages(
+          messages.map((msg) =>
+            msg.id === id ? { ...msg, read: true } : msg
+          )
+        );
+        toast.success('Message marked as read');
+      } else {
+        toast.error(data.error || 'Failed to update message');
+      }
     } catch (error) {
       toast.error('Failed to update message');
       console.error(error);

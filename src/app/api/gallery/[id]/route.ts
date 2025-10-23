@@ -4,7 +4,7 @@ import { galleryImageSchema } from '@/lib/validations';
 import { successResponse, errorResponse, notFoundResponse, validationErrorResponse } from '@/utils/api-response';
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -49,8 +49,31 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
+export async function PATCH(
   request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await request.json();
+
+    // For PATCH, we allow partial updates (like toggling published status)
+    const image = await prisma.galleryImage.update({
+      where: { id: params.id },
+      data: body,
+    });
+
+    return successResponse(image, 'Gallery image updated successfully');
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      return notFoundResponse();
+    }
+    console.error('Gallery PATCH error:', error);
+    return errorResponse('Failed to update gallery image', 500);
+  }
+}
+
+export async function DELETE(
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {

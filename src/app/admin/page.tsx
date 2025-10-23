@@ -1,8 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { BarChart3, Users, FileText, Image as ImageIcon } from 'lucide-react';
 
 export default function AdminDashboard() {
+  const router = useRouter();
+
   const stats = [
     { label: 'Total Pages', value: '5', icon: FileText, color: 'bg-blue-100 text-blue-600' },
     { label: 'Gallery Items', value: '24', icon: ImageIcon, color: 'bg-purple-100 text-purple-600' },
@@ -34,16 +37,28 @@ export default function AdminDashboard() {
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-xl font-bold text-secondary-900 mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button className="px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium">
+          <button
+            onClick={() => router.push('/admin/pages')}
+            className="px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium"
+          >
             Add New Page
           </button>
-          <button className="px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium">
+          <button
+            onClick={() => router.push('/admin/gallery')}
+            className="px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium"
+          >
             Upload Gallery Image
           </button>
-          <button className="px-4 py-3 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition font-medium">
+          <button
+            onClick={() => router.push('/admin/messages')}
+            className="px-4 py-3 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition font-medium"
+          >
             View Messages
           </button>
-          <button className="px-4 py-3 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition font-medium">
+          <button
+            onClick={() => router.push('/admin/settings')}
+            className="px-4 py-3 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition font-medium"
+          >
             Site Settings
           </button>
         </div>
